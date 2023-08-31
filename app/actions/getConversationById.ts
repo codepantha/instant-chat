@@ -21,3 +21,5 @@ const getConversationById = async (conversationId: string) => {
     return null;
   }
 };
+
+export default getConversationById;
