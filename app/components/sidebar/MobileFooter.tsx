@@ -8,6 +8,8 @@ const MobileFooter = () => {
   const routes = useRoutes();
   const { isOpen } = useConversation();
 
+  if (isOpen) return null;
+
   return (
     <div
       className="fixed
