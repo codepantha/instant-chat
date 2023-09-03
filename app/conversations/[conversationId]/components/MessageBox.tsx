@@ -38,27 +38,34 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
       <div className={avatar}>
         <Avatar user={data.sender} />
       </div>
+
       <div className={body}>
         <div className="flex items-center gap-1">
           <p className="text-sm text-gray-500">{data.sender.name}</p>
           <time className="text-xs text-gray-400">
             {format(new Date(data.createdAt), 'p')}
           </time>
-          <div className={message}>
-            {data.image ? (
-              <Image
-                alt="image"
-                height="288"
-                width="288"
-                src={data.image}
-                className="object-cover cursor-pointer hover:scale-110
-                transition translate"
-              />
-            ) : (
-              <p>{data.body}</p>
-            )}
-          </div>
         </div>
+
+        <div className={message}>
+          {data.image ? (
+            <Image
+              alt="image"
+              height="288"
+              width="288"
+              src={data.image}
+              className="object-cover cursor-pointer hover:scale-110
+                transition translate"
+            />
+          ) : (
+            <p>{data.body}</p>
+          )}
+        </div>
+        {isLast && isOwn && seenList.length > 0 && (
+          <p className="text-xs font-light text-gray-500">
+            {`Seen by ${seenList}`}
+          </p>
+        )}
       </div>
     </div>
   );
