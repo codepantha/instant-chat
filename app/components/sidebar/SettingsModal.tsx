@@ -125,8 +125,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
               mt-6 flex items-center justify-end gap-x-6"
           >
             <Button
+              type="button"
               disabled={isLoading}
-              danger
+              secondary
               onClick={onClose}
             >
               Cancel
