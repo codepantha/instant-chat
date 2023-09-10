@@ -60,8 +60,12 @@ const ConversationList: React.FC<ConversationListProps> = ({
 
     const removeHandler = (conversation: FullConversationType) => {
       setItems((prev) =>
-        prev.filter((prevConversation) => prevConversation.id !== conversation.id)
+        prev.filter(
+          (prevConversation) => prevConversation.id !== conversation.id
+        )
       );
+
+      if (conversationId === conversation.id) router.push('/conversations');
     };
 
     pusherClient.bind('conversation:new', newHandler);
@@ -74,7 +78,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
       pusherClient.unbind('conversation:update', updateHandler);
       pusherClient.unbind('conversation:remove', removeHandler);
     };
-  }, [pusherKey]);
+  }, [pusherKey, conversationId, router]);
 
   return (
     <>
