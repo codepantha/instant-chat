@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import getCurrentUser from '@/app/actions/getCurrentUser';
 import prisma from '@/app/libs/prismadb';
+import { pusherServer } from '@/app/libs/pusher';
 
 interface IParams {
   conversationId: string;
@@ -19,7 +20,7 @@ export async function DELETE(
       return new NextResponse('Unauthorized', { status: 401 });
 
     // Fetch the conversation, including its users for real-time updates
-    const existingConversation = await prisma?.conversation.findMany({
+    const existingConversation = await prisma.conversation.findMany({
       where: {
         id: conversationId
       },
@@ -40,6 +41,12 @@ export async function DELETE(
         }
       }
     })
+
+    existingConversation[0].users.forEach((user) => {
+      if (user.email) {
+        pusherServer.trigger(user.email, 'conversation:remove', existingConversation[0]);
+      }
+    });
 
     return NextResponse.json(deletedConversation);
   } catch (error) {}
